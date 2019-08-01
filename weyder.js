@@ -44,5 +44,7 @@ const foreCast = ({latitude,longitude,place_name:place},callback)=>{
 
 module.exports = {
     geoCode,
-    foreCast
+    foreCast,
+    MapBoxObject,
+    DarkSkyObject
 };

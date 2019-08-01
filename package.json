@@ -2,7 +2,7 @@
   "name": "weyder",
   "version": "1.0.0",
   "description": "\"A simple weather package that takes advantage of the darksky and mapbox api\"",
-  "main": "weather.js",
+  "main": "weyder.js",
   "directories": {
     "lib": "lib"
   },
