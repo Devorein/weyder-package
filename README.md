@@ -33,12 +33,12 @@ geoCode('location',(err,geocode)=>{
     }
 })
 // Output
-            // {
-            //     summary: 'Humid and Mostly Cloudy',
-            //     place: 'Austin, Texas, USA',
-            //     temperature: '25.12°C',
-            //     rainChance: '5.00%'
-            // }
+// {
+//     summary: 'Humid and Mostly Cloudy',
+//     place: 'Austin, Texas, USA',
+//     temperature: '25.12°C',
+//     rainChance: '5.00%'
+// }
 ```
 
 
