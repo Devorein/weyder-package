@@ -1,6 +1,6 @@
 {
   "name": "weyder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "\"A simple weather package that takes advantage of the darksky and mapbox api\"",
   "main": "weyder.js",
   "directories": {
@@ -14,8 +14,8 @@
     "url": "git+https://github.com/Devorein/weyder-npm.git"
   },
   "keywords": [
-    "[\"weather\"",
-    "\"forecast\"]"
+    "weather",
+    "forecast"
   ],
   "author": "devorein",
   "license": "MIT",
