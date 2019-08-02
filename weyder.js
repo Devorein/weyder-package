@@ -85,9 +85,12 @@ const foreCast = ({latitude,longitude,place_name:place},callback)=>{
     })
 }
 
+const setAccessToken = function(obj,token){
+    if(obj == 'darksky') DarkSkyObject.urlComponent.accessToken = token 
+    else if(obj == 'mapbox') MapBoxObject.queryStringObj.accessToken = token
+}
 module.exports = {
     geoCode,
     foreCast,
-    MapBoxObject,
-    DarkSkyObject
+    setAccessToken
 };
