@@ -41,4 +41,7 @@ geoCode('location',(err,geocode)=>{
 // }
 ```
 
-
+**TODO**: 
+--
+1. Get customized data, instead of hard coded json response values
+2. Give user much more control over the darksky and mapbox api, by configuring the endpoints.
