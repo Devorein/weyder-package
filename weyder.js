@@ -1,44 +1,87 @@
-const request = require('request');
+const https = require('https');
 
 const {MapBoxObject,DarkSkyObject,buildURL} = require('./lib/builder.js')
 
+
 const geoCode = (address,callback) => {
     MapBoxObject.urlComponent.place = address
-    request({'url':buildURL('mapbox'),'json':true},(err,{body:res_body})=>{
-        if(err){
-            callback(err,undefined)
-        }else if(res_body.features.length==0){
-            callback(`Sorry couldn't find anything of name ${res_body.query}`,undefined);
-        }else{
-            let {center:[longitude,latitude],place_name} = res_body.features[0]
-            const geoCodeInfo = {
-                longitude,
-                latitude,
-                place_name
+    return new Promise((resolve,reject)=>{
+        https.get(buildURL('mapbox'), (resp) => {
+            let data = '';
+    
+            resp.on('data', (chunk) => {
+                data += chunk;
+            });
+    
+            resp.on('end', () => {
+                let allData = JSON.parse(data)
+                if(allData.features.length==0){
+                    reject(`Sorry couldn't find anything of name ${address}`)
+                }else{
+                    let {center:[longitude,latitude],place_name} = allData.features[0]
+                    const geoCodeInfo = {
+                        longitude,
+                        latitude,
+                        place_name
+                    }
+                    if(callback == null || callback == undefined && typeof(callback)!=='function'){
+                        resolve(geoCodeInfo)
+                    }else{
+                        callback(undefined,coords)
+                    }
+                }
+            })
+        }).on('error', (e) => {
+            if(callback == null || callback == undefined && typeof(callback)!=='function'){
+                reject(e)
+            }else{
+                callback(e,undefined)
             }
-            callback(null,geoCodeInfo)
-        }
+        });
     })
 }
 
 const foreCast = ({latitude,longitude,place_name:place},callback)=>{
     DarkSkyObject.urlComponent.lat = latitude
     DarkSkyObject.urlComponent.long = longitude
-    request({'url':buildURL('darksky'), 'json': true},(err, {body:res_body})=>{
-        if(err){
-            console.log(`Error Found!\n${err}`);
-        }else if(res_body.error){
-            console.log(`Server responded with ${res_body.code} ${res_body.error}`);
-        }else{
-            let {summary,temperature,precipProbability:rainChance} = res_body.currently
-            let forecastInfo = {
-                summary,
-                place,
-                temperature:temperature+'°C',
-                rainChance: (rainChance*100).toFixed(2)+'%'
+    return new Promise((resolve,reject)=>{
+        https.get(buildURL('darksky'), (resp) => {
+            let data = '';
+    
+            resp.on('data', (chunk) => {
+                data += chunk;
+            });
+    
+            resp.on('end', () => {
+                let allData = JSON.parse(data)
+                if(allData.error){
+                    if(callback == null || callback == undefined && typeof(callback)!=='function'){
+                        reject(`Server responded with ${allData.code} ${allData.error}`)
+                    }else{
+                        callback(`Server responded with ${allData.code} ${allData.error}`,undefined);
+                    }
+                }else{
+                    let {summary,temperature,precipProbability:rainChance} = allData.currently
+                    let forecastInfo = {
+                        summary,
+                        place,
+                        temperature:temperature+'°C',
+                        rainChance: (rainChance*100).toFixed(2)+'%'
+                    }
+                    if(callback == null || callback == undefined && typeof(callback)!=='function'){
+                        resolve(forecastInfo)
+                    }else{
+                        callback(undefined,forecastInfo)
+                    }
+                }
+            })
+        }).on('error', (e) => {
+            if(callback == null || callback == undefined && typeof(callback)!=='function'){
+                reject(e)
+            }else{
+                callback(e,undefined)
             }
-            callback(forecastInfo)
-        }
+        });
     })
 }
 
