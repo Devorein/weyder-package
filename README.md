@@ -11,13 +11,13 @@ npm install weyder
 weyder provides two functions ``geoCode`` and ``foreCast``
 
 #### Configuring the objects
-Create a free darksky and mapbox account, copy your own access token and pass to `setAccessToken`, 
+**Create a free darksky and mapbox account, copy your own access token and pass to `setAccessToken`** 
 ```js
 setAccessToken("darksky","your_DarkSky_AccessToken")
 setAccessToken("mapbox","your_MapBox_AccessToken")
 ``` 
 
-#### Using the api
+#### Using the api (using promises)
 ```js
 const {geoCode,foreCast,setAccessToken} = require('weyder');
 
@@ -35,6 +35,25 @@ geoCode('Austin')
     console.log(e);
 })
 
+// Output
+// {
+//     summary: 'Humid and Mostly Cloudy',
+//     place: 'Austin, Texas, USA',
+//     temperature: '25.12°C',
+//     rainChance: '5.00%'
+// }
+```
+
+#### Using the api (using callbacks)
+```js
+const {geoCode,foreCast,setAccessToken} = require('weyder');
+geoCode("Austin",(err,geocode)=>{
+    if(err) return err
+    foreCast(geocode,(err,forecast)=>{
+        if(err) return err
+        console.log(forecast)
+    })
+})
 // Output
 // {
 //     summary: 'Humid and Mostly Cloudy',
