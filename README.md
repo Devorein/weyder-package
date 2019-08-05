@@ -36,13 +36,13 @@ The above sets
 NOTE: To undestand what `currently, hourly, daily` holds, visit https://darksky.net/dev/docs#data-point
 
 ## Here's a snapshot of `currently`
-![currently_data](/package/img/currently.png)
+![currently_data](img/currently.png)
 
 ## Here's a snapshot of `hourly`
-![hourly_data](/package/img/hourly.png)
+![hourly_data](img/hourly.png)
 
 ## Here's a snapshot of `daily`
-![daily_data](/package/img/daily.png)
+![daily_data](img/daily.png)
 
 #### Using the api (using async/await)
 ```js
