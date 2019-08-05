@@ -6,15 +6,25 @@ npm install weyder
 ```
 
 ### 2. Using weyder
-weyder provides two functions ``geoCode`` and ``foreCast``
+```js
+const weyder = require('weyder') // OR
+const {geoCode,foreCast,setAccessToken,setWeatherDataSpan} = require('weyder');
+```
+#### Exported values overview
+- `geoCode` (location) => [ latitude,longitude ]
+- `foreCast` ([ latitude,longitude ]) => weather Information
+- `setAccessToken` ("mapbox" || "darksky", mapbox_token || darksky_token)
+- `setWeatherDataSpan` ({"currently" || "minutely" || "daily": `boolean`})
 
-#### Configuring the objects
+#### `setAccessToken`
+This function is used to set the access token of mapbox and darksky endpoints
+
 **Create a free darksky and mapbox account, copy your own access token and pass the api name and access token to `setAccessToken`** 
 ```js
 setAccessToken("darksky","your_DarkSky_AccessToken")
 setAccessToken("mapbox","your_MapBox_AccessToken")
 ``` 
-#### Setting the weather data time span
+#### `setWeatherDataSpan`
 Use this function and set appropriate time span to get the more information from the api.
 
 Object properties `currently, minutely, hourly, daily`, value `<boolean>`
@@ -33,20 +43,21 @@ The above sets
 -  `daily = true`
 
 ---
+### 3. Necessary Resources
 NOTE: To undestand what `currently, hourly, daily` holds, visit https://darksky.net/dev/docs#data-point
 
-## Here's a snapshot of `currently`
+#### Here's a snapshot of `currently`
 ![currently_data](img/currently.png)
 
-## Here's a snapshot of `hourly`
+#### Here's a snapshot of `hourly`
 ![hourly_data](img/hourly.png)
 
-## Here's a snapshot of `daily`
+#### Here's a snapshot of `daily`
 ![daily_data](img/daily.png)
 
-#### Using the api (using async/await)
+### 4. Basic Usage
+#### Using the api (async/await style)
 ```js
-const {geoCode,foreCast,setAccessToken} = require('weyder');
 const getWeatherData = async (location) =>{
     const geocode = await geoCode(location)
     const forecast = await foreCast(geocode)
@@ -60,10 +71,8 @@ getWeatherData("Austin")
 //     daily: [...],
 // }
 ```
-#### Using the api (using promises)
+#### Using the api (promises style)
 ```js
-const {geoCode,foreCast,setAccessToken,setWeatherDataSpan} = require('weyder');
-
 geoCode('Austin')
 .then(geocode => foreCast(geocode))
 .then(forecast => {
@@ -81,9 +90,8 @@ geoCode('Austin')
 // }
 ```
 
-#### Using the api (using callbacks)
+#### Using the api (callbacks style)
 ```js
-const {geoCode,foreCast,setAccessToken} = require('weyder');
 geoCode("Austin",(err,geocode)=>{
     if(err) return err
     foreCast(geocode,(err,forecast)=>{
@@ -91,6 +99,7 @@ geoCode("Austin",(err,geocode)=>{
         console.log(forecast)
     })
 })
+
 // Output
 // {
 //     currently: [...],
@@ -99,6 +108,35 @@ geoCode("Austin",(err,geocode)=>{
 // }
 ```
 
+### 5. Total Usage
+```js
+const {geoCode,foreCast,setAccessToken,setWeatherDataSpan} = require('weyder');
+
+setAccessToken("darksky","your_DarkSky_AccessToken")
+setAccessToken("mapbox","your_MapBox_AccessToken")
+
+setWeatherDataSpan({
+    'currently': true,
+    'minutely': false,
+    'daily': true
+})
+
+geoCode('Austin')
+.then(geocode => foreCast(geocode))
+.then(forecast => {
+    console.log(forecast);
+})
+.catch(e=>{
+    console.log(e);
+})
+
+// Output
+// {
+//     currently: [...],
+//     hourly: [...]
+//     daily: [...],
+// }
+```
 **TODO**: 
 --
 1. Still thinking :^)
