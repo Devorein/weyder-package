@@ -65,6 +65,7 @@ const foreCast = ({latitude,longitude,place_name:place},callback)=>{
     DarkSkyObject.urlComponent.long = longitude
     if(callback == null || callback == undefined && typeof(callback)!=='function'){
         return new Promise((resolve,reject)=>{
+            console.log(buildURL('darksky'));
             https.get(buildURL('darksky'), (resp) => {
                 let data = '';
                 resp.on('data', (chunk) => {
