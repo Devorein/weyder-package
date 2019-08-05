@@ -18,5 +18,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added functionality to get the weather data of a given time span eg: currently, hourly, daily
 - `foreCast` returns all the data instead of handpicked data, so you as a developer can pick the data that you want 
 
-## [2.1.1 - 2.1.2] - 2019-08-05
+## [2.1.1 - 2.1.2 - 2.1.3] - 2019-08-05
 - Nothing new except for a better README.md file
