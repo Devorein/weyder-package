@@ -1,8 +1,6 @@
 ## Weyder
 
-### Basic Usage
-
-#### 1. Installation
+### 1. Installation
 ```cmd
 npm install weyder
 ```
@@ -16,6 +14,35 @@ weyder provides two functions ``geoCode`` and ``foreCast``
 setAccessToken("darksky","your_DarkSky_AccessToken")
 setAccessToken("mapbox","your_MapBox_AccessToken")
 ``` 
+#### Setting the weather data time span
+Use this function and set appropriate time span to get the more information from the api.
+
+Object properties `currently, minutely, hourly, daily`, value `<boolean>`
+```js
+setWeatherDataSpan({
+    'currently': true,
+    'minutely': false,
+    'daily': true
+})
+
+```
+The above sets 
+-  `currently = true`, 
+-  `minutely = false`, 
+-  `hourly = false`, 
+-  `daily = true`
+
+---
+NOTE: To undestand what `currently, hourly, daily` holds, visit https://darksky.net/dev/docs#data-point
+
+## Here's a snapshot of `currently`
+![currently_data](/package/img/currently.png)
+
+## Here's a snapshot of `hourly`
+![hourly_data](/package/img/hourly.png)
+
+## Here's a snapshot of `daily`
+![daily_data](/package/img/daily.png)
 
 #### Using the api (using async/await)
 ```js
@@ -28,25 +55,19 @@ const getWeatherData = async (location) =>{
 getWeatherData("Austin")
 // Output
 // {
-//     summary: 'Humid and Mostly Cloudy',
-//     place: 'Austin, Texas, USA',
-//     temperature: '25.12°C',
-//     rainChance: '5.00%'
+//     currently: [...],
+//     hourly: [...]
+//     daily: [...],
 // }
 ```
 #### Using the api (using promises)
 ```js
-const {geoCode,foreCast,setAccessToken} = require('weyder');
+const {geoCode,foreCast,setAccessToken,setWeatherDataSpan} = require('weyder');
 
 geoCode('Austin')
-.then(geocode=>{
-    foreCast(geocode)
-    .then(forecast=>{
-        console.log(forecast);
-    })
-    .catch(e=>{
-        console.log(e);
-    })
+.then(geocode => foreCast(geocode))
+.then(forecast => {
+    console.log(forecast);
 })
 .catch(e=>{
     console.log(e);
@@ -54,10 +75,9 @@ geoCode('Austin')
 
 // Output
 // {
-//     summary: 'Humid and Mostly Cloudy',
-//     place: 'Austin, Texas, USA',
-//     temperature: '25.12°C',
-//     rainChance: '5.00%'
+//     currently: [...],
+//     hourly: [...]
+//     daily: [...],
 // }
 ```
 
@@ -73,14 +93,12 @@ geoCode("Austin",(err,geocode)=>{
 })
 // Output
 // {
-//     summary: 'Humid and Mostly Cloudy',
-//     place: 'Austin, Texas, USA',
-//     temperature: '25.12°C',
-//     rainChance: '5.00%'
+//     currently: [...],
+//     hourly: [...]
+//     daily: [...],
 // }
 ```
 
 **TODO**: 
 --
-1. Get customized data, instead of hard coded json response values
-2. Give user much more control over the darksky and mapbox api, by configuring the endpoints.
+1. Still thinking :^)
