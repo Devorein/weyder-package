@@ -128,9 +128,15 @@ const setWeatherDataSpan = function(exObj){
     DarkSkyObject.queryStringObj.exclude = excluded
 }
 
+const Weyder = async (location)=>{
+    const geocode = await geoCode(location);
+    const forecast = await foreCast(geocode)
+    return forecast;
+}
 module.exports = {
     geoCode,
     foreCast,
     setAccessToken,
-    setWeatherDataSpan
+    setWeatherDataSpan,
+    Weyder
 };
